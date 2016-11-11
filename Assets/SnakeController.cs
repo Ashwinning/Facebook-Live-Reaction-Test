@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class SnakeController : MonoBehaviour {
 
     public GameObject prefab;
-    List<GameObject> bodyParts = new List<GameObject>();
+    public List<GameObject> bodyParts = new List<GameObject>();
     List<Vector3> bodyPartLastPositions = new List<Vector3>();
     float speed = 1; //In Seconds. Reduce this.
 
@@ -14,40 +14,40 @@ public class SnakeController : MonoBehaviour {
         StartCoroutine(Ticker());
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     IEnumerator Ticker()
     {
         while (true)
         {
             yield return new WaitForSeconds(speed);
-            Move();
+            Move(true);
         }
     }
 
-    void Append()
+    void Append(Vector3 pos)
     {
-        GameObject obj = Instantiate(prefab, bodyParts[bodyParts.Count].transform.forward * -0.1f, Quaternion.identity) as GameObject;
+        GameObject obj = Instantiate(prefab, pos, Quaternion.identity) as GameObject;
         bodyParts.Add(obj);
     }
 
-    void Move()
+    void Move(bool append = false)
     {
         Debug.Log("move");
         //Save body part positions
+        bodyPartLastPositions.Clear();
         for (int i = 0; i < bodyParts.Count; i++)
         {
-            bodyPartLastPositions[i] = bodyParts[i].transform.position;
+            bodyPartLastPositions.Add(bodyParts[i].transform.position);
         }
         this.transform.position += this.transform.forward * 0.1f; //Move this forward
         //Move all the body parts to the last position of the ones ahead of them.
         for (int i = 1; i < bodyParts.Count; i++)
         {
             //Starts at the second
-            bodyParts[i].transform.position = bodyPartLastPositions[i - 1];
-        } 
+            bodyParts[i].transform.position = bodyPartLastPositions[i-1];
+        }
+        if (append)
+        {
+            Append(bodyPartLastPositions[bodyPartLastPositions.Count - 1]);
+        }
     }
 }
