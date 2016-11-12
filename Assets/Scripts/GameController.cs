@@ -93,9 +93,13 @@ public class GameController : MonoBehaviour {
         }
     }
 
-
     Vector3 RaycastToWorld(float x, float y)
     {
         return camera.ScreenToWorldPoint(new Vector3(x, y, camera.transform.position.y));
+    }
+
+    void SpawnRandom()
+    {
+
     }
 }
