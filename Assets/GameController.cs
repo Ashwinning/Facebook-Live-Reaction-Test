@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour {
         if (player.transform.position.z > topLeft.z && player.transform.forward == transform.forward)
         {
             //Send to bottom
-            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, bottomRight.z)
+            player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, bottomRight.z);
         }
         //Bottom Edge
         if (player.transform.position.z < bottomLeft.z && player.transform.forward == -transform.forward)
