@@ -41,6 +41,9 @@ public class GameController : MonoBehaviour {
 
         //Reposition cookie
         spawnedCookie.transform.position = GetPosition();
+
+        //Append tail
+        snakeController.Append();
     }
 
     public void AtePoop()
@@ -129,47 +132,44 @@ public class GameController : MonoBehaviour {
     Vector3 GetPosition()
     {
         Vector3 spawnPosition = Vector3.zero;
-        spawnPosition = Utilities.GetRandomPointInRect(topLeft, topRight, bottomLeft, bottomRight, 0.1f);
-        //Get position
-        bool determinedPosition = false; //tracker
-        /*
-        while (!determinedPosition)
+        
+        while (true)
         {
             //Generate
-            spawnPosition = Utilities.GetRandomPointInRect(topLeft, topRight, bottomLeft, bottomRight, 0.5f);
+            spawnPosition = Utilities.GetRandomPointInRect(topLeft, topRight, bottomLeft, bottomRight, 0.05f);
             
             //Check the position does not collide with anything else.
             //Snake head
             if (player.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
             {
-                break;
+                continue;
             }
             //Snake body
             foreach (GameObject bodyPart in snakeController.bodyParts)
             {
                 if (bodyPart.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
                 {
-                    break;
+                    continue;
                 }
             }
             //Cookie
             if (spawnedCookie != null && spawnedCookie.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
             {
-                break;
+                continue;
             }
             //Spawned Poops
             foreach (GameObject spawnedPoop in poopsSpawned)
             {
                 if (spawnedPoop.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
                 {
-                    break;
+                    continue;
                 }
             }
 
             //Else, there are no collisions
-            determinedPosition = true; //this will break the loop
+            break;
         }
-        */
+        
         return spawnPosition;
     }
 

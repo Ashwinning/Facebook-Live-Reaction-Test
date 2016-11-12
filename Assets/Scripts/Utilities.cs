@@ -42,7 +42,6 @@ public static class Utilities {
     /// <returns></returns>
     public static Vector3 GetRandomPointInRect(Vector3 topLeft, Vector3 topRight, Vector3 bottomLeft, Vector3 bottomRight, float padding)
     {
-        Debug.Log(topLeft + "\n" + topRight + "\n" + bottomLeft + "\n" + bottomRight);
         Vector3 top = GetRandomVector3Between(topLeft, topRight, padding, padding);
         Vector3 bottom = GetRandomVector3Between(bottomLeft, bottomRight, padding, padding);
         return GetRandomVector3Between(top, bottom);

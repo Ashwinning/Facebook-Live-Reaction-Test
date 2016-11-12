@@ -6,7 +6,7 @@ public class SnakeController : MonoBehaviour {
 
     public GameObject prefab;
     public List<GameObject> bodyParts = new List<GameObject>();
-    Vector3[] bodyPartLastPositions = new Vector3[0];
+    public Vector3[] bodyPartLastPositions = new Vector3[0];
     float speed = 0.1f; //In Seconds. Reduce this.
 
     public GameObject gameControllerObject;
@@ -32,7 +32,7 @@ public class SnakeController : MonoBehaviour {
         }
     }
     
-    void Append()
+    public void Append()
     {
         GameObject obj = Instantiate(prefab, bodyPartLastPositions[bodyPartLastPositions.Length - 1], Quaternion.identity) as GameObject;
         bodyParts.Add(obj);
@@ -54,7 +54,7 @@ public class SnakeController : MonoBehaviour {
         for (int i = 1; i < bodyParts.Count - 1; i++)
         {
             //Starts at the second
-            bodyParts[i].transform.position = bodyPartLastPositions[i-1];
+            bodyParts[i].transform.position = bodyPartLastPositions[i -1];
         }
     }
 
