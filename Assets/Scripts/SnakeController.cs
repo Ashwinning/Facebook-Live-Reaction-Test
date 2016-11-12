@@ -68,8 +68,22 @@ public class SnakeController : MonoBehaviour {
         this.transform.Rotate(new Vector3(0, 90, 0));
     }
 
-    void OnTriggerEnter()
+    void OnTriggerEnter(Collider collider)
     {
-        
+        Debug.Log("triggered");
+        if (collider.tag == "Cookie")
+        {
+            gameController.AteCookie();
+        }
+
+        if (collider.tag == "Poop")
+        {
+            gameController.AtePoop();
+        }
+
+        if (collider.tag == "Player")
+        {
+            gameController.AtePlayer();
+        }
     }
 }

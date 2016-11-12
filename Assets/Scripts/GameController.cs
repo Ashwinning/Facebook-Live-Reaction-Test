@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour {
         snakeController = player.GetComponent<SnakeController>();
         GetEdges();
         DebugEdges();
+
+        SpawnCookie();
 	}
 	
 	// Update is called once per frame
@@ -35,10 +37,18 @@ public class GameController : MonoBehaviour {
 
     public void AteCookie()
     {
+        //Give Score
 
+        //Reposition cookie
+        spawnedCookie.transform.position = GetPosition();
     }
 
     public void AtePoop()
+    {
+
+    }
+
+    public void AtePlayer()
     {
 
     }
@@ -119,8 +129,10 @@ public class GameController : MonoBehaviour {
     Vector3 GetPosition()
     {
         Vector3 spawnPosition = Vector3.zero;
+        spawnPosition = Utilities.GetRandomPointInRect(topLeft, topRight, bottomLeft, bottomRight, 0.1f);
         //Get position
         bool determinedPosition = false; //tracker
+        /*
         while (!determinedPosition)
         {
             //Generate
@@ -141,7 +153,7 @@ public class GameController : MonoBehaviour {
                 }
             }
             //Cookie
-            if (spawnedCookie.activeSelf && spawnedCookie.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
+            if (spawnedCookie != null && spawnedCookie.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
             {
                 break;
             }
@@ -157,10 +169,11 @@ public class GameController : MonoBehaviour {
             //Else, there are no collisions
             determinedPosition = true; //this will break the loop
         }
-
+        */
         return spawnPosition;
     }
 
+    //Call at start
     void SpawnCookie()
     {
         spawnedCookie = Instantiate(cookie, GetPosition(), Quaternion.identity) as GameObject;
