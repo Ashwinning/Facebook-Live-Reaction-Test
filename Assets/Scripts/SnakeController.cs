@@ -5,12 +5,19 @@ using System.Collections.Generic;
 public class SnakeController : MonoBehaviour {
 
     public GameObject prefab;
-    List<GameObject> bodyParts = new List<GameObject>();
+    public List<GameObject> bodyParts = new List<GameObject>();
     Vector3[] bodyPartLastPositions = new Vector3[0];
     float speed = 0.1f; //In Seconds. Reduce this.
 
+    public GameObject gameControllerObject;
+    private GameController gameController;
+
 	// Use this for initialization
 	void Start () {
+
+        //get ref to gamecontroller
+        gameController = gameControllerObject.GetComponent<GameController>();
+
         bodyParts.Add(this.gameObject);
         StartCoroutine(Ticker());
 	}
@@ -59,5 +66,10 @@ public class SnakeController : MonoBehaviour {
     public void TurnRight()
     {
         this.transform.Rotate(new Vector3(0, 90, 0));
+    }
+
+    void OnTriggerEnter()
+    {
+        
     }
 }

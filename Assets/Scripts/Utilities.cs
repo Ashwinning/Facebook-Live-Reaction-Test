@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class Utilities : MonoBehaviour {
+public static class Utilities {
 
     /// <summary>
     /// Returns a random vector3 between min and max. (Inclusive)
@@ -58,5 +58,18 @@ public static class Utilities : MonoBehaviour {
         return GetRandomVector3Between(point1, point2);
     }
 
-
+    /// <summary>
+    /// Gets a random point between a rect defined by 4 Vector 3's.
+    /// </summary>
+    /// <param name="topLeft"></param>
+    /// <param name="topRight"></param>
+    /// <param name="bottomLeft"></param>
+    /// <param name="bottomRight"></param>
+    /// <returns></returns>
+    public static Vector3 GetRandomPointInRect(Vector3 topLeft, Vector3 topRight, Vector3 bottomLeft, Vector3 bottomRight, float padding)
+    {
+        Vector3 top = GetRandomVector3Between(topLeft, topRight, padding, padding);
+        Vector3 bottom = GetRandomVector3Between(bottomLeft, bottomRight, padding, padding);
+        return GetRandomVector3Between(top, bottom);
+    }
 }

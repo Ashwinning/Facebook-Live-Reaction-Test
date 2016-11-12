@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
@@ -14,6 +15,9 @@ public class GameController : MonoBehaviour {
     private Vector3 bottomRight;
     private Vector3 topLeft;
     private Vector3 topRight;
+    
+    private GameObject spawnedCookie;
+    private List<GameObject> poopsSpawned = new List<GameObject>();
 
     // Use this for initialization
     void Start () {
@@ -27,6 +31,16 @@ public class GameController : MonoBehaviour {
     {
         KeyboardControls();
         Teleporter();
+    }
+
+    public void AteCookie()
+    {
+
+    }
+
+    public void AtePoop()
+    {
+
     }
 
     private void KeyboardControls()
@@ -98,8 +112,63 @@ public class GameController : MonoBehaviour {
         return camera.ScreenToWorldPoint(new Vector3(x, y, camera.transform.position.y));
     }
 
-    void SpawnRandom()
+    /// <summary>
+    /// Returns a position which is not colliding with anything on the map.
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetPosition()
     {
+        Vector3 spawnPosition = Vector3.zero;
+        //Get position
+        bool determinedPosition = false; //tracker
+        while (!determinedPosition)
+        {
+            //Generate
+            spawnPosition = Utilities.GetRandomPointInRect(topLeft, topRight, bottomLeft, bottomRight, 0.5f);
+            
+            //Check the position does not collide with anything else.
+            //Snake head
+            if (player.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
+            {
+                break;
+            }
+            //Snake body
+            foreach (GameObject bodyPart in snakeController.bodyParts)
+            {
+                if (bodyPart.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
+                {
+                    break;
+                }
+            }
+            //Cookie
+            if (spawnedCookie.activeSelf && spawnedCookie.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
+            {
+                break;
+            }
+            //Spawned Poops
+            foreach (GameObject spawnedPoop in poopsSpawned)
+            {
+                if (spawnedPoop.GetComponent<BoxCollider>().bounds.Contains(spawnPosition))
+                {
+                    break;
+                }
+            }
 
+            //Else, there are no collisions
+            determinedPosition = true; //this will break the loop
+        }
+
+        return spawnPosition;
+    }
+
+    void SpawnCookie()
+    {
+        spawnedCookie = Instantiate(cookie, GetPosition(), Quaternion.identity) as GameObject;
+    }
+
+    void SpawnPoop()
+    {
+        GameObject spawnedPoop = Instantiate(poop, GetPosition(), Quaternion.identity) as GameObject;
+        poopsSpawned.Add(spawnedPoop);
     }
 }
