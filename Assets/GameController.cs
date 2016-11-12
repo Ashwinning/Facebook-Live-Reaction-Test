@@ -19,12 +19,12 @@ public class GameController : MonoBehaviour {
     void Start () {
         snakeController = player.GetComponent<SnakeController>();
         GetEdges();
+        DebugEdges();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        GetEdges();
         KeyboardControls();
         Teleporter();
     }
@@ -49,29 +49,44 @@ public class GameController : MonoBehaviour {
        topRight = RaycastToWorld(camera.pixelWidth, camera.pixelHeight);
     }
 
+    void DebugEdges()
+    {
+        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+        lineRenderer.SetWidth(0.2F, 0.2F);
+        lineRenderer.SetVertexCount(5);
+        lineRenderer.SetPosition(0, bottomLeft);
+        lineRenderer.SetPosition(1, bottomRight);
+        lineRenderer.SetPosition(2, topRight);
+        lineRenderer.SetPosition(3, topLeft);
+        lineRenderer.SetPosition(4, bottomLeft);
+    }
+
     //Teleports snake head to the other side when player hits the edge
     void Teleporter()
     {
+        
         //Top Edge
-        if (player.transform.position.z > topLeft.z && player.transform.forward == transform.forward)
+        if (player.transform.position.z > topLeft.z && player.transform.forward == Vector3.forward)
         {
+            Debug.Log("Teleporting");
             //Send to bottom
             player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, bottomRight.z);
         }
         //Bottom Edge
-        if (player.transform.position.z < bottomLeft.z && player.transform.forward == -transform.forward)
+        if (player.transform.position.z < bottomLeft.z && player.transform.forward == -Vector3.forward)
         {
             //Send to top
             player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, topRight.z);
         }
         //Left Edge
-        if (player.transform.position.x < bottomLeft.x && player.transform.forward == -transform.right)
+        if (player.transform.position.x < bottomLeft.x && player.transform.forward == -Vector3.right)
         {
             //Send to right
             player.transform.position = new Vector3(bottomRight.x, player.transform.position.y, player.transform.position.z);
         }
         //Right Edge
-        if (player.transform.position.x > bottomRight.x && player.transform.forward == transform.right)
+        if (player.transform.position.x > bottomRight.x && player.transform.forward == Vector3.right)
         {
             //Send to left
             player.transform.position = new Vector3(bottomLeft.x, player.transform.position.y, player.transform.position.z);
